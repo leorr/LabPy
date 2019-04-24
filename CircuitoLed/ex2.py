@@ -57,18 +57,18 @@ ax.plot(0,0,color='red',label='barras de erro(resíduos)')
 
 #y esperado
 ye=[]
-for i in range(0,np.size(x),1):             #
+for i in range(0,np.size(x),1):             
     ye.append(r[0][0] * x[i] + r[0][1])
 
 chi2=stats.chisquare(y,ye,8)[0] #chi quadrado para 8 graus de liberdade
 
-c2='χ²=' + str(chi2)
-eq='y='+str("{:.2f}".format(r[0][0])) + 'x' + str("{:.2f}".format(r[0][1]))
-R2='R²='+str("{:.2f}".format(stats.linregress(x, y)[2] ** 2))
+c2='χ²=' + str(chi2)            #convertendo chi quadrado para ser mostrado em texto
+R2='R²='+str("{:.2f}".format(stats.linregress(x, y)[2] ** 2))#coeficiente de correlação² em texto
+eq='y='+str("{:.2f}".format(r[0][0])) + 'x' + str("{:.2f}".format(r[0][1]))#equaçao da reta tem texto
 
 ax.text(5,3,c2)
-ax.text(5,5,eq)
 ax.text(5,4,R2)
+ax.text(5,5,eq)
 ax.set_aspect(1)
 plt.legend()
 plt.xlim(-2,max(max(x),max(y)))
