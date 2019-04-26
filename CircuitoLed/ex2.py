@@ -20,36 +20,48 @@ from scipy import stats
 
 def pearsonregression(x,y):
     r= np.polyfit(x,y,1,full=True)          #regressao linear
+    n = np.size(y)                          #tamanho amostral
+
     ye=[]                                   #y esperado
-    for i in range(0,np.size(x),1):             
+    for i in range(0,n,1):             
         ye.append(r[0][0] * x[i] + r[0][1])
     ye=np.array(ye)
-    ym=0                                    #y medio
-    for i in range(0,np.size(y),1):             
-        ym=ym+y[i]
-    ym=ym/np.size(y)
 
-    fig = plt.figure()
-    ax = fig.add_subplot(111)
+    ym=0                                    #y medio
+    for i in range(0,n,1):             
+        ym=ym+y[i]
+    ym=ym/n
+    
+    xm=0                                    #x medio
+    for i in range(0,n,1):             
+        xm=xm+x[i]
+    xm=xm/n
+    
+
+    fig = plt.figure()                      
+    ax = fig.add_subplot(111)               #preparando plots
 
     ax.plot(x,y,'.',label='pontos obtidos',color='red')
     ax.plot(x,ye,label='linha de regressão')
 
-    for i in range(0,np.size(x),1):                     #
-        res = [x[i],x[i]],[y[i],ye[i]]                #resíduos, x -> xe = x E y -> ye  
+    for i in range(0,n,1):                  #
+        res = [x[i],x[i]],[y[i],ye[i]]      #resíduos, xo E yo -> ye  
         ax.plot(res[0],res[1],'--',linewidth=0.5,color='red')     #
     ax.plot(0,0,'--',linewidth=0.5,color='red',label='barras de erro(resíduos)')
 
-    sres=0
-    for i in range(0,np.size(y),1):
-        sres=sres+  ((y[i]-ye[i])**2)   
-    sm=0
-    for i in range(0,np.size(y),1):
-        sm=sm+((y[i]-ym)**2)
-    R2=1-sres/sm
-    
-    
-    c2='(todo)χ²=' + str("{:.3f}".format(00000))            #convertendo chi quadrado para ser mostrado em texto
+    #temos a regressão da reta, b0 e b1 portanto vamos aos testes:
+    SQres = 0
+    for i in range(0,n,1):
+        SQres= (y[i]-ye[i])**2 + SQres
+
+    SQexp = 0
+    for i in range(0,n,1):
+        SQexp = (ye[i]-ym)**2 + SQexp
+
+    SQtot = SQexp + SQres 
+    R2=SQexp/SQtot
+
+    c2='χ²=' + str("{:.3f}".format(stats.chisquare(x,y)[0]))            #convertendo chi quadrado para ser mostrado em texto
     R2='R²='+str("{:.2f}".format(R2))#coeficiente de correlação² em texto
     eq='y='+str("{:.2f}".format(r[0][0])) + 'x+' + str("{:.2f}".format(r[0][1]))#equaçao da reta tem texto
 
