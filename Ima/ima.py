@@ -15,7 +15,7 @@ with open('dados.tsv','r') as tsvfile:
 i=np.array(i)
 x=[]
 for aux in theta:
-    x.append(math.tan(math.radians(aux)) /(8*1000000))
-
+    x.append(math.tan(math.radians(aux)))
+#uo = 4 pi 10^-7
 
 linegress.lineregression(x,i)
